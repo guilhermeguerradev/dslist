@@ -1,36 +1,36 @@
 package com.devsuperior.dslist.entities;
 
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
-@Entity  // Configura Classe Java para que ela seja equivalente a uma tabela do banco relacional
-@Table(name = "tb_game") // Customizar tabela do banco
+@Entity  // Diz ao JPA que essa classe será mapeada como uma tabela no banco de dados
+@Table(name = "tb_game") // Define o nome da tabela como "tb_game"
 public class Game {
 
-    @Id // Configurando Id como chave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Para o id ser auto incrementado pelo banco // Forma que ele vai indicar pra o banco gerar o ID;
+    @Id // Define o campo "id" como chave primária
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Faz o banco gerar o ID automaticamente (auto incremento)
     private Long id;
+
     private String title;
 
-    @Column(name = "game_year") // Palavra Year, palavra reservado do Sql, mudei o nome do campo la no banco para game_year
+    @Column(name = "game_year") // Renomeia a coluna no banco para "game_year" (evita conflito com a palavra reservada "year")
     private Integer year;
+
     private String genre;
     private String platforms;
     private Double score;
     private String imgUrl;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT") // Define o tipo da coluna como TEXT (aceita textos grandes)
     private String shortDescription;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT") // Também define como TEXT para textos longos
     private String longDescription;
-
 
     public Game() {
     }
 
-    public Game(Long id, String title, Integer year, String genre, String platforms, Double score,  String imgUrl, String shorDescription, String longDescription) {
+    public Game(Long id, String title, Integer year, String genre, String platforms, Double score, String imgUrl, String shortDescription, String longDescription) {
         this.id = id;
         this.title = title;
         this.year = year;
@@ -78,19 +78,17 @@ public class Game {
         return platforms;
     }
 
-    public void setPlatforms(String platform) {
+    public void setPlatforms(String platforms) {
         this.platforms = platforms;
     }
 
-    public void setScore(String platform) {
-        this.score = score;
-    }
     public Double getScore() {
         return score;
     }
 
-
-
+    public void setScore(Double score) {
+        this.score = score;
+    }
 
     public String getImgUrl() {
         return imgUrl;
@@ -104,8 +102,8 @@ public class Game {
         return shortDescription;
     }
 
-    public void setShortDescription(String shorDescription) {
-        this.shortDescription = shorDescription;
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 
     public String getLongDescription() {
