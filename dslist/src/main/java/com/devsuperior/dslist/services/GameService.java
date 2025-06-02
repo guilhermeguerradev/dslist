@@ -1,11 +1,13 @@
 package com.devsuperior.dslist.services;
 
+import com.devsuperior.dslist.dto.GameDTO;
 import com.devsuperior.dslist.dto.GameMiniDTO;
 import com.devsuperior.dslist.entities.Game;
 import com.devsuperior.dslist.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
@@ -36,8 +38,23 @@ public class GameService {
     // Isso permite que os componentes "se componham" e sigam o princípio da inversão de dependência,
     // promovendo um design desacoplado e mais fácil de testar.
 
+    @Transactional(readOnly = true)
+    public GameDTO findById(Long id) {
+        Game result = gameRepository.findById(id).get();
+        GameDTO dto = new GameDTO(result);
+        return dto;
+    }
+
+    @Transactional(readOnly = true)
     public List<GameMiniDTO> findAll() {
+
+        // Primeiro, buscamos todos os registros da tabela de games no banco de dados.
+        // O método findAll() retorna uma lista de objetos do tipo Game.
         List<Game> result = gameRepository.findAll();
+
+        // Em seguida, pegamos essa lista de Game e transformamos em uma lista de GameMiniDTO.
+        // Usamos stream() para percorrer a lista, map() para criar um novo GameMiniDTO para cada Game,
+        // e toList() para coletar tudo de volta em uma nova lista.
         List<GameMiniDTO> dto = result.stream().map(x -> new GameMiniDTO(x)).toList();
         return dto;
     }
