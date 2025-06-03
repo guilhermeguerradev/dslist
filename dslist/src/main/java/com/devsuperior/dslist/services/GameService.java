@@ -3,6 +3,7 @@ package com.devsuperior.dslist.services;
 import com.devsuperior.dslist.dto.GameDTO;
 import com.devsuperior.dslist.dto.GameMiniDTO;
 import com.devsuperior.dslist.entities.Game;
+import com.devsuperior.dslist.projections.GameMinProjection;
 import com.devsuperior.dslist.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -55,6 +56,13 @@ public class GameService {
         // Em seguida, pegamos essa lista de Game e transformamos em uma lista de GameMiniDTO.
         // Usamos stream() para percorrer a lista, map() para criar um novo GameMiniDTO para cada Game,
         // e toList() para coletar tudo de volta em uma nova lista.
+        List<GameMiniDTO> dto = result.stream().map(x -> new GameMiniDTO(x)).toList();
+        return dto;
+    }
+
+    @Transactional(readOnly = true)
+    public List<GameMiniDTO> findByList(Long listId) {
+        List<GameMinProjection> result = gameRepository.searchByList(listId);
         List<GameMiniDTO> dto = result.stream().map(x -> new GameMiniDTO(x)).toList();
         return dto;
     }
