@@ -6,22 +6,24 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+/*
+ * Repositório responsável por acessar os dados da entidade GameList no banco de dados.
+ * Interface que estende JpaRepository, o que já fornece automaticamente métodos prontos como:
+ * - findAll(), findById(), save(), deleteById(), etc.
+ */
 public interface GameListRepository extends JpaRepository<GameList, Long> {
-    /*
-     * Camada de acesso a dados (Data Access Layer - DAL)
-     * Responsável por realizar operações diretas com o banco de dados:
-     * - Consultas (SELECT)
-     * - Inserções (INSERT)
-     * - Atualizações (UPDATE)
-     * - Exclusões (DELETE)
-     *
-     * Essa camada isola a lógica de acesso ao banco de dados da camada de serviço (Service Layer),
-     * promovendo melhor organização e manutenção do código.
-     */
 
+    /*
+     * Método personalizado para atualizar a posição de um jogo dentro de uma lista.
+     *
+     * Anotações:
+     * - @Modifying: indica que a query vai modificar o banco (UPDATE, INSERT ou DELETE)
+     * - @Query: define a SQL nativa a ser executada
+     *
+     * Essa query atualiza a coluna `position` da tabela `tb_belonging` com base nos IDs da lista e do jogo.
+     */
     @Modifying
     @Query(nativeQuery = true,
             value = "UPDATE tb_belonging SET position = :newPosition WHERE list_id = :listId AND game_id = :gameId")
     void updateBelongingPosition(Long listId, Long gameId, Integer newPosition);
-
 }

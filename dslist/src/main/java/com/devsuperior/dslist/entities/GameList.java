@@ -1,26 +1,29 @@
 package com.devsuperior.dslist.entities;
 
 import jakarta.persistence.*;
-
 import java.util.Objects;
-@Entity
-@Table(name = "tb_game_list")
+
+@Entity // Indica que essa classe é uma entidade JPA (será mapeada para uma tabela no banco)
+@Table(name = "tb_game_list") // Define explicitamente o nome da tabela como "tb_game_list"
 public class GameList {
 
-    @Id // Define o campo "id" como chave primária
+    @Id // Define o campo "id" como a chave primária da tabela
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Faz o banco gerar o ID automaticamente (auto incremento)
     private Long id;
-    private String name;
 
+    private String name; // Nome da lista de jogos (ex: "Favoritos", "RPGs", "Lançamentos")
+
+    // Construtor padrão (necessário para o JPA)
     public GameList () {
-
     }
 
+    // Construtor com parâmetros, útil para instanciar objetos manualmente
     public GameList(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    // Getters e setters: permitem acessar e modificar os atributos da entidade
     public Long getId() {
         return id;
     }
@@ -37,6 +40,9 @@ public class GameList {
         this.name = name;
     }
 
+    // equals() e hashCode() são usados para comparar objetos corretamente,
+    // especialmente em coleções como listas ou conjuntos.
+    // Aqui, a comparação é baseada no ID da lista.
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -1,11 +1,14 @@
 package com.devsuperior.dslist.dto;
 
-
+// Importa a entidade Game, da qual vamos copiar os dados
 import com.devsuperior.dslist.entities.Game;
+
+// Importa utilitário do Spring que copia propriedades entre objetos automaticamente
 import org.springframework.beans.BeanUtils;
 
 public class GameDTO {
 
+    // Atributos do DTO que representam os dados que serão enviados na resposta da API
     private Long id;
     private String title;
     private Integer year;
@@ -16,19 +19,19 @@ public class GameDTO {
     private String shortDescription;
     private String longDescription;
 
+    // Construtor padrão (necessário para frameworks como o Spring instanciar o objeto)
     public GameDTO() {
-
     }
 
+    // Construtor que recebe uma entidade Game e copia os dados dela para o DTO
     public GameDTO(Game entity) {
-        // Copia todos os dados da entidade 'entity' para este objeto (this).
-        // Essa função verifica os atributos com o mesmo nome e tipo nas duas classes,
-        // e copia os valores automaticamente, evitando fazer isso manualmente.
-        // Exemplo: this.title = entity.getTitle();
-        // Útil para popular DTOs a partir de entidades de forma rápida.
+        // Copia automaticamente os dados da entidade 'entity' para o objeto atual (this)
+        // Isso evita escrever manualmente: this.title = entity.getTitle(); etc.
         BeanUtils.copyProperties(entity, this);
-
     }
+
+    // Métodos getters e setters: permitem acessar e modificar os dados do DTO
+    // São importantes para a serialização e desserialização dos objetos JSON
 
     public Long getId() {
         return id;
